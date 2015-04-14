@@ -1,0 +1,18 @@
+.dragable {
+	-webkit-app-region: drag;
+	-webkit-user-select: none;
+}
+
+.dragable a{
+	-webkit-app-region: no-drag;
+	-webkit-user-select: none;
+}
+
+body {
+	background: url('../img/bg.png') no-repeat;
+	padding-top: 80px;
+}
+
+.panel {
+	border-radius: 5px;
+}

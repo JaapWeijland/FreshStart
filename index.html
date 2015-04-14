@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html ng-app="launcher">
+	<head>
+		<title>Launcher</title>
+		<script type="text/javascript">
+			var nw = require('nw.gui');
+			var win = nw.Window.get();
+			var execFile = require('child_process').execFile, child;
+
+			var regedit = require('regedit')
+
+			regedit.list('HKCU\\SOFTWARE', function(err, result) {
+			    console.log(result);
+			});
+
+			var http = require('http');
+			var fs = require('fs');
+
+			var file = fs.createWriteStream("BattleNetDownloader.exe");
+			var request = http.get("http://dist.blizzard.com/downloads/bna-installers/322d5bb9ae0318de3d4cde7641c96425/retail.1/Battle.net-Setup-enUS.exe", function(response) {
+			 	response.pipe(file);
+			 	file.on('finish', function() {
+			    	file.close();
+			    	console.log(file.path);
+			    	child = execFile(file.path,
+				       function(error,stdout,stderr) { 
+					    if (error) {
+					      console.log(error.stack); 
+					      console.log('Error code: '+ error.code); 
+					      console.log('Signal received: '+ 
+					             error.signal);
+					      } 
+					    console.log('Child Process stdout: '+ stdout);
+					    console.log('Child Process stderr: '+ stderr);
+					  }); 
+			    });
+			});
+		</script>
+		<script type="text/javascript" src="js/angular/angular.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<!--<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />-->
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap/yeti.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+
+
+	</head>
+	<body ng-controller="main">
+		<div class="navbar navbar-default navbar-fixed-top dragable">
+			<div class="container">
+				<div class="navbar-header">
+					<a href="#" class="navbar-brand">Launcher</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav navbar-right">
+		            <li><a href="#" id="start">Start</a></li>
+		            <li><a href="#" ng-click="minimize()"><i class="fa fa-minus"></i></a></li>
+		            <li><a href="#" ng-click="close()"><i class="fa fa-times"></i></a></li>
+		          </ul>
+				</div>
+			</div>
+		</div>
+		<div class="container panel">
+			<div class="page-header">
+				<h1>
+					Hallo {{naam}}!
+				</h1>
+			</div>
+			<a href="" ng-click="goTo('/third')">Third</a>
+
+			<div ng-view></div>
+		</div>
+
+		<script type="text/javascript">
+
+			document.getElementById('start').onclick = function(e){
+				var filePath = "C:\\Users\\Jaap Weijland\\AppData\\Roaming\\Spotify\\Spotify.exe";
+
+				 child = execFile(filePath,
+				       function(error,stdout,stderr) { 
+				    if (error) {
+				      console.log(error.stack); 
+				      console.log('Error code: '+ error.code); 
+				      console.log('Signal received: '+ 
+				             error.signal);
+				      } 
+				    console.log('Child Process stdout: '+ stdout);
+				    console.log('Child Process stderr: '+ stderr);
+				  }); 
+				  child.on('exit', function (code) { 
+				    console.log('Child process exited '+
+				        'with exit code '+ code);
+				  });
+			};
+		</script>
+	</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "main": "index.html",
+  "scripts": {
+    "start": "nw"
+  },
+  "name": "Launcher",
+  "window": {
+    "frame": false,
+    "toolbar": true,
+    "width": 1024,
+    "height": 768,
+    "max_width": 1024,
+    "max_height": 768,
+    "resizable": false,
+    "position": "center",
+    "fullscreen": false
+  },
+  "dependencies": {
+    "regedit": "^2.2.2"
+  }
+}
